@@ -1,0 +1,41 @@
+{
+    "http.proxy": "",
+    "http.proxyStrictSSL": false,
+
+    "rest-client.previewOption": "exchange",
+    "rest-client.timeoutinmilliseconds": 3000,
+    "rest-client.showResponseInDifferentTab": true,
+    "rest-client.excludeHostsForProxy": [],
+    "rest-client.followredirect": true,
+    "rest-client.mimeAndFileExtensionMapping": {
+        "application/atom+xml": "xml",
+        "application/json": "json",
+    },
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "stage": "v1",
+            "email": "hoge@xxx.com"
+        },
+        "dev": {
+            "host": "dev.hoge.jp",
+            "stage": "v2"
+        },
+        "stg": {
+            "host": "stg.hoge.jp",
+        },
+        "prod": {
+            "host": "prod.hoge.jp",  //aaa
+        }
+    },
+    "rest-client.certificates": {
+        "localhost:8081": {
+            "cert": "/Users/demo/Certificates/client.crt",
+            "key": "/Users/demo/Keys/client.key"
+        },
+        "example.com": {
+            "cert": "/Users/demo/Certificates/client.crt",
+            "key": "/Users/demo/Keys/client.key"
+        }
+    }
+
+}

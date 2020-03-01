@@ -1,0 +1,57 @@
+@baseurl = https://oc249fdylb.execute-api.ap-northeast-1.amazonaws.com
+@id = 1111
+@name = {"name": "yamada"}
+@token = Bearer e975b15aa477ee440417ea069e8ef728a22933f0
+@createdAt = {{$datetime iso8601}}
+@author = {{$processEnv USERNAME}}
+
+###
+# @name post
+Content-Type: application/x-www-form-urlencoded
+
+name=foo&password=bar
+
+###
+# @name login
+POST {{baseurl}}/{{stage}} HTTP/1.1
+content-type: application/json
+User-Agent: rest-client
+Accept-Language: ja-jp
+
+{
+    "id": {{id}},
+    "username" : "nan",
+    "password": "nan123456",
+    "request_id": "{{$guid}}",
+    "updated_at": "{{$timestamp}}",
+    "created_at": "{{$timestamp -1 d}}",
+    "review_count": "{{$randomInt 5 200}}",
+    "custom_date": "{{$datetime 'YYYY-MM-DD'}}",
+    "author": "{{author}}",
+    "dotenv.aaa" : "{{$dotenv aaa}}",
+}
+
+@token = {{login.response.body.$.token}}
+#@authToken = {{login.response.headers.X-AuthToken}}
+
+//commandlet select "Copy Request As cURL"
+//curl --request POST --url https://oc249fdylb.execute-api.ap-northeast-1.amazonaws.com/v1 --header '"created_at": "1582956223",' --header '"custom_date": "2020-03-01"' --header '"password": "nan123456",' --header '"request_id": "0b3277d5-ec0f-48fa-8956-ef0ae15d5428",' --header '"review_count": "{{$randomInt 5, 200}}",' --header '"updated_at": "1583042623",' --header '"username": "nan",' --header 'accept-language: ja-jp' --header 'content-type: application/json' --header 'user-agent: rest-client' --data '@token = 123456w'
+
+###
+
+get {{baseurl}}/{{stage}}
+Authorization: {{token}}
+
+###
+
+GET https://httpbin.org//basic-auth/user/passwd HTTP/1.1
+Authorization: Basic user passwd
+
+###
+//Add the value of Authorization header in the base64 encoding of username:password.
+GET https://httpbin.org//basic-auth/user/passwd HTTP/1.1
+Authorization: Basic dXNlcjpwYXNzd2Q=
+
+###
+GET https://httpbin.org/digest-auth/auth/user/passwd
+Authorization: Digest user passwd
